@@ -1,0 +1,5 @@
+.answers td,th{
+  padding:5px;
+  margin:5px;
+  border:thin solid black
+}

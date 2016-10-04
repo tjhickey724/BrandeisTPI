@@ -1,0 +1,139 @@
+<template name="survey2">
+  {{#if currentUser}}
+    {{> surveyform2 showSummary=false}}
+  {{else}}
+    You must log in to take the survey
+  {{/if}}
+</template>
+
+<template name="surveyform2">
+
+  {{#if showSummary}}
+    <div class="jumbotron">
+       <h1>Summary of Brandeis TPI</h1>
+       <p>The results of the Teaching Practice Inventory appear below.</p>
+       <p>
+       You have already completed the survey for the following courses:
+       <ol >
+         {{#each c in yourResponses}}
+         <li>{{c.name}}/{{c.semester}}</li>
+         {{/each}}
+       </ol>
+       {{#if noResponses}} <p class="bg-danger">You haven't completed any TPI surveys yet!</p>{{/if}}
+     </p>
+
+    </div>
+  {{else}}
+    <div class="jumbotron">
+       <h1>Brandeis Teaching Practices Inventory</h1>
+    <p>The goal of this survey is to discover the frequency
+    and variety of different teaching practices at Brandeis University.
+    Your individual data will not be made available to anyone except
+    the head of the Center for Teaching and Learning.
+    Your answers will be aggregated to show trends in Teaching Practices across
+    a number of different categories including School (FA,H,S,SS,Heller,IBS),
+    Teaching Rank (Contract/TenureTrack, Instructor, Assistant Professor, etc.),
+    Course size.</p><p>
+
+    You have already completed the survey for the following courses:
+    <ol >
+      {{#each c in yourResponses}}
+      <li>{{c.name}}/{{c.semester}}</li>
+      {{/each}}
+    </ol>
+    {{#if noResponses}} <p class="bg-danger">You haven't completed any TPI surveys yet!</p>{{/if}}
+  </p>
+
+    </div>
+    <h1 class="bg-primary"> Please fill out this survey multiple times.<br>
+      Once for each course you have taught recently.
+    </h1>
+  {{/if}}
+
+<form id="survey">
+{{#each k in keys}}
+  <h1>{{k.section}}: {{k.text}}</h1>
+  <p>{{k.subtext}}</p>
+
+    {{#each q in questions k}}
+      {{#if showSummary}}
+        <hr>
+        {{> showanswers q=q}}
+      {{else}}
+        {{> itemTemplate q=q}}
+      {{/if}}
+
+    {{/each}}
+   <br>
+{{/each}}
+<br><hr><br>
+{{#if showSummary}}
+  <a class="btn btn-lg btn-danger" href="/">Go to main page</a>
+{{else}}
+<p>Thank you for completing this form. Please press the button below to submit your answers.</p>
+
+<input type="submit" id="submit"
+       class="btn btn-lg bg-danger"
+       value="Submit your Teaching Practices Inventory">
+{{/if}}
+<br>
+<br>
+
+</form>
+</template>
+
+<template name="showanswers">
+    <table border="2" class="answers bg-info">
+      <thead>
+        <tr><th>{{q.label}}</th><th>Count</th></tr>
+      </thead>
+      <tbody>
+        {{#each a in answers q}}
+          <tr><td>{{a.val}}</td><td> {{a.count}}</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+</template>
+
+<template name="checkboxItem">
+  <div class="checkbox">
+    <label for="{{q.id}}">
+      <input type="checkbox" id="{{q.id}}">
+      {{q.label}}
+      </label>
+    </div>
+</template>
+
+<template name="selectItem">
+  <div class="form-group">
+    <select id="{{q.id}}">
+      {{#each option in q.options}}
+      <option>{{option}}</option>
+      {{/each}}
+    </select>
+    <label for="{{q.id}}">{{q.label}}</label>
+  </div>
+</template>
+
+
+<template name="textItem">
+  <div class="form-group">
+    <input type="text" id="{{q.id}}" >
+    <label for="{{q.id}}">{{q.label}}</label>
+  </div>
+</template>
+
+<template name="otherItem">
+  <label for="{{q.id}}">
+    <input type="checkbox" id="{{q.id}}">
+    {{q.label}}
+  </label><br>
+    <textarea id="{{q.id}}_comments" cols="100%" rows="4"></textarea>
+</template>
+
+<template name="textareaItem">
+  <label for="{{q.id}}">
+    {{q.label}}
+  </label><br>
+    <textarea id="{{q.id}}" cols="100%" rows="4"></textarea>
+</template>
