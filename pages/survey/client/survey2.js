@@ -47,9 +47,9 @@ Template.surveyform2.events({
     console.dir(tvals);
     const svals=
     $("select")
-      .map(function(){results[this.id]=this.options[0].value; return {id:this.id,val:$(this).val()};})
+      .map(function(){results[this.id]=$(this).val(); return {id:this.id,val:$(this).val()};})
       .get();
-    console.dir(tvals);
+    console.dir(svals);
     const paras =
     $("textarea")
       .map(function(){results[this.id]=$(this).val(); return {id:this.id,val:$(this).val()};})
